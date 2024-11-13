@@ -48,7 +48,6 @@ services:
       pgdatabase:
         condition: service_healthy
         restart: true
-    restart: unless-stopped
 
 networks:
   nba_network:
