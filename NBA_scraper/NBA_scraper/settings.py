@@ -7,6 +7,22 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
+# GET POSTGRES SETTINGS
+
+import os
+from dotenv import load_dotenv
+from pathlib import Path
+
+filepath = Path().resolve()
+
+dotenv_path = filepath.parent.parent / ".env"
+load_dotenv(dotenv_path)
+
+DB_PASS = os.environ.get("DB_PASS")
+DB_HOST = os.environ.get("DB_HOST")
+DB_USER = os.environ.get("DB_USER")
+DB_DATA = os.environ.get("DB_DATA")
+
 BOT_NAME = "NBA_scraper"
 
 SPIDER_MODULES = ["NBA_scraper.spiders"]
@@ -44,9 +60,12 @@ CONCURRENT_REQUESTS_PER_DOMAIN = 16
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-#SPIDER_MIDDLEWARES = {
-#    "NBA_scraper.middlewares.NbaScraperSpiderMiddleware": 543,
-#}
+SPIDER_MIDDLEWARES = {
+    'scrapy_deltafetch.DeltaFetch': 100,
+}
+
+DELTAFETCH_ENABLED = True
+DELTAFETCH_RESET = False
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
@@ -62,9 +81,10 @@ CONCURRENT_REQUESTS_PER_DOMAIN = 16
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    "NBA_scraper.pipelines.NbaScraperPipeline": 300,
-#}
+ITEM_PIPELINES = {
+   "NBA_scraper.pipelines.NbaScraperPipeline": 300,
+   "NBA_scraper.pipelines.PostgresPipeline": 400,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
