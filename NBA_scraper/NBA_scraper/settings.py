@@ -10,12 +10,12 @@
 # GET POSTGRES SETTINGS
 
 import os
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 from pathlib import Path
 
 filepath = Path().resolve()
 
-dotenv_path = filepath.parent.parent / ".env"
+dotenv_path = find_dotenv(".env")
 load_dotenv(dotenv_path)
 
 DB_PASS = os.environ.get("DB_PASS")
