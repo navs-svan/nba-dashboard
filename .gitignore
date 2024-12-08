@@ -1,6 +1,6 @@
 test.py
 .venv
-*.csv
+output.csv
 .env
 __pycache__
 pgadmin
