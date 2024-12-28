@@ -3,3 +3,5 @@ dev.env
 README.md
 test.py
 commands
+dashboard/
+**/picturespider.py

@@ -29,12 +29,14 @@ SPIDER_MODULES = ["NBA_scraper.spiders"]
 NEWSPIDER_MODULE = "NBA_scraper.spiders"
 
 # PLAYWRIGHT
-DOWNLOAD_HANDLERS = {
-    "http": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
-    "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
-}
+"""pip install scrapy-playwright and dependencies if you want to
+use the picturespider and uncomment lines 34-39"""
+# DOWNLOAD_HANDLERS = {
+#     "http": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
+#     "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
+# }
 
-TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
+# TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "NBA_scraper (+http://www.yourdomain.com)"

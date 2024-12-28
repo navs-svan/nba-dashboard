@@ -1,5 +1,5 @@
 requests
-scrapy
+scrapy==2.11.2
 ipython
 python-dotenv
 psycopg2
