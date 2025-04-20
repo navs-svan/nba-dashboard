@@ -10,6 +10,9 @@ commands
 # SCRAPY
 deltafetch/
 
+# google cloud
+/airflow/gcreds.json
+
 /.vagrant
 /scrapy.iml
 *.pyc
