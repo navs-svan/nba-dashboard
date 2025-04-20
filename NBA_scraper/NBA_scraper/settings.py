@@ -92,7 +92,7 @@ DELTAFETCH_RESET = False
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    "NBA_scraper.pipelines.NbaScraperPipeline": 300,
-   "NBA_scraper.pipelines.PostgresPipeline": 400,
+#    "NBA_scraper.pipelines.PostgresPipeline": 400,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
