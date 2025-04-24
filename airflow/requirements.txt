@@ -1,7 +1,9 @@
 requests
 scrapy==2.11.2
-ipython
+# ipython
 python-dotenv
-psycopg2
-scrapy-deltafetch
+# psycopg2
+# scrapy-deltafetch
 google-cloud-storage
+google-cloud-bigquery
+apache-airflow-providers-google

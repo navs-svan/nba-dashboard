@@ -1,12 +1,10 @@
-FROM python:3.11.2
+FROM apache/airflow:3.0.0
 
-WORKDIR /app
+ENV AIRFLOW_HOME=/opt/airflow
 
-COPY . .
 
-RUN pip install -r requirements.txt
+WORKDIR $AIRFLOW_HOME
 
-WORKDIR /app/NBA_scraper
-
-CMD [ "bash" ]
-
+USER $AIRFLOW_UID
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt

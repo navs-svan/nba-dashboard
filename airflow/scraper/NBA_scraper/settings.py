@@ -32,7 +32,7 @@ NEWSPIDER_MODULE = "NBA_scraper.spiders"
 
 cur_date = datetime.now().strftime("%Y-%m-%d")
 FEEDS = {
-    f'gs://{GS_BUCKET}/export/output_{cur_date}.csv': {
+    f'gs://{GS_BUCKET}/export/test_{cur_date}.csv': {
         'format': 'csv',
         'overwrite': True,
         'encoding': 'utf8',
@@ -102,7 +102,7 @@ CONCURRENT_REQUESTS_PER_DOMAIN = 16
 SPIDER_MIDDLEWARES = {
     "NBA_scraper.middlewares.DeltaFetch": 100,
 }
-DELTAFETCH_ENABLED = True
+# DELTAFETCH_ENABLED = True
 DELTAFETCH_RESET = False
 
 ITEM_PIPELINES = {

@@ -28,8 +28,8 @@ resource "google_storage_bucket" "raw_bucket" {
   }
 }
 
-# resource "google_bigquery_dataset" "bq_prod" {
-#   dataset_id                 = var.bq_prod
-#   location                   = var.location
-#   delete_contents_on_destroy = true
-# }
+resource "google_bigquery_dataset" "bq_raw" {
+  dataset_id                 = var.bq_raw
+  location                   = var.location
+  delete_contents_on_destroy = true
+}
