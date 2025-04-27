@@ -1,16 +1,26 @@
-from scraper.NBA_scraper.spiders.bref_spider import BrefSpiderSpider
-from scrapy.crawler import CrawlerProcess
-from scrapy.utils.project import get_project_settings
+
 
 from google.cloud import bigquery, storage
 from datetime import datetime, timedelta
 from dotenv import find_dotenv, load_dotenv
-import os
+
 from pathlib import Path
+import sys
+import os
+
+filepath = Path(__file__).resolve()
+scraper_folder = filepath.parent.parent / "scraper"
+os.environ.setdefault('SCRAPY_SETTINGS_MODULE', 'NBA_scraper.settings')
+
+sys.path.append(str(scraper_folder))
+sys.path.append(str(filepath.parent.parent))
+
+from scraper.NBA_scraper.spiders.bref_spider import BrefSpiderSpider
+from scrapy.crawler import CrawlerProcess
+from scrapy.utils.project import get_project_settings
 
 from airflow.decorators import dag
 from airflow.operators.python import PythonOperator
-
 
 def web_to_gcs():
     settings = get_project_settings()
@@ -59,6 +69,7 @@ def gcs_to_bq():
     load_job.result()  # Wait for the job to complete
 
 
+
 @dag(
     dag_id="bref_pipeline",
     schedule="@daily",
@@ -82,4 +93,8 @@ def Pipeline():
     web_to_gcs_task >> gcs_to_bucket_task
 
 
-dg = Pipeline()
+dag = Pipeline()
+
+if __name__ == "__main__":
+    web_to_gcs()
+    gcs_to_bq()
