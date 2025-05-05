@@ -9,9 +9,9 @@ class BrefSpiderSpider(scrapy.Spider):
         "https://www.basketball-reference.com/leagues/NBA_2025_games-october.html"
     ]
 
-    custom_settings = {
-        'CLOSESPIDER_ITEMCOUNT': 10,  # Stop after 10 items
-    }
+    # custom_settings = {
+    #     'CLOSESPIDER_ITEMCOUNT': 10,  # Stop after 10 items
+    # }
 
     def parse(self, response):
         months = response.css("div.filter div")
@@ -20,7 +20,6 @@ class BrefSpiderSpider(scrapy.Spider):
 
             yield response.follow(month_url, callback=self.parse_page)
 
-        # month_url = "/leagues/NBA_2025_games-october.html"
         yield response.follow(month_url, callback=self.parse_page)
 
     def parse_page(self, response):

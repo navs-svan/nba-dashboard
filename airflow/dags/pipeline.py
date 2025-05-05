@@ -1,35 +1,20 @@
-
-
 from google.cloud import bigquery, storage
 from datetime import datetime, timedelta
 from dotenv import find_dotenv, load_dotenv
-
 from pathlib import Path
-import sys
 import os
-
-filepath = Path(__file__).resolve()
-scraper_folder = filepath.parent.parent / "scraper"
-os.environ.setdefault('SCRAPY_SETTINGS_MODULE', 'NBA_scraper.settings')
-
-sys.path.append(str(scraper_folder))
-sys.path.append(str(filepath.parent.parent))
-
-from scraper.NBA_scraper.spiders.bref_spider import BrefSpiderSpider
-from scrapy.crawler import CrawlerProcess
-from scrapy.utils.project import get_project_settings
 
 from airflow.decorators import dag
 from airflow.operators.python import PythonOperator
+from airflow.operators.bash import BashOperator
 
-def web_to_gcs():
-    settings = get_project_settings()
-    process = CrawlerProcess(settings)
-    process.crawl(BrefSpiderSpider)
-    process.start()
+import logging
+
+logger = logging.getLogger("airflow.task")
 
 
 def gcs_to_bq():
+    logger.info("Appending to BigQuery Table")
     filepath = Path(__file__).resolve()
 
     env_file = find_dotenv(".env")
@@ -49,8 +34,8 @@ def gcs_to_bq():
     bucket = storage_client.bucket(BUCKET)
 
     cur_date = datetime.now().strftime("%Y-%m-%d")
-    file_name = f"export/test_{cur_date}.csv"
-    # file_name = f"export/output_{cur_date}.csv"
+    # file_name = f"export/test_{cur_date}.csv"
+    file_name = f"export/output_{cur_date}.csv"
     blob = bucket.get_blob(file_name)
     uri = f"gs://{blob.bucket.name}/{blob.name}"
 
@@ -67,7 +52,7 @@ def gcs_to_bq():
         uri, table_id, job_config=job_config
     )  # Create and API request
     load_job.result()  # Wait for the job to complete
-
+    logger.info("Done. Appended to raw table")
 
 
 @dag(
@@ -78,15 +63,16 @@ def gcs_to_bq():
 )
 def Pipeline():
 
-    web_to_gcs_task = PythonOperator(
+    web_to_gcs_task = BashOperator(
         task_id="web_to_gcs",
-        python_callable=web_to_gcs,
+        bash_command="cd /opt/airflow/scraper && scrapy crawl bref_spider",
         retries=3,
     )
 
     gcs_to_bucket_task = PythonOperator(
         task_id="gcs_to_bucket",
         python_callable=gcs_to_bq,
+        execution_timeout=timedelta(minutes=15),
         retries=3,
     )
 
@@ -94,7 +80,3 @@ def Pipeline():
 
 
 dag = Pipeline()
-
-if __name__ == "__main__":
-    web_to_gcs()
-    gcs_to_bq()
