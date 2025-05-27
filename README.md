@@ -18,7 +18,7 @@ This project scrapes [NBA 2024-25 Season boxscores](https://www.basketball-refer
 
 ### Visualization
 
-A PowerBI dashboard was created which can be interacted with through this [link](https://app.powerbi.com/view?r=eyJrIjoiN2VlZTkyMDItMDAyZS00ZTU2LTg3YWUtZGE1MWQxZGQ2YjY3IiwidCI6ImJkMDNhNzM1LTJhYTMtNGNjYS05NzIyLTJhZTQ5MjlhYjNlYyIsImMiOjEwfQ%3D%3D). Several measures were created using complex DAX queries to create some of the more interesting visuals. Snapshots of the dashboard can be seen below.
+A PowerBI dashboard was created which can be interacted with through this [link](https://app.powerbi.com/view?r=eyJrIjoiYjc0NTQ1ZGQtYzUzZC00ZGUxLThjMjMtYzI2NmJjZDkyZGZhIiwidCI6ImJkMDNhNzM1LTJhYTMtNGNjYS05NzIyLTJhZTQ5MjlhYjNlYyIsImMiOjEwfQ%3D%3D). Several measures were created using complex DAX queries to create some of the more interesting visuals. Snapshots of the dashboard can be seen below.
 
 ##### Team Stats Overview Page 
 
