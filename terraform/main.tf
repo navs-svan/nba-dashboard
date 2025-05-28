@@ -33,3 +33,15 @@ resource "google_bigquery_dataset" "bq_raw" {
   location                   = var.location
   delete_contents_on_destroy = true
 }
+
+resource "google_bigquery_dataset" "bq_prod" {
+  dataset_id                 = var.bq_prod
+  location                   = var.location
+  delete_contents_on_destroy = true
+}
+
+resource "google_bigquery_dataset" "bq_dev" {
+  dataset_id                 = var.bq_dev
+  location                   = var.location
+  delete_contents_on_destroy = true
+}
