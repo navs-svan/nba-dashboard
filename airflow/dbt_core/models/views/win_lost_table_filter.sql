@@ -2,7 +2,7 @@
 
 WITH win_lose_table_filter AS (
 	SELECT
-		  CONCAT(team, date) AS id
+		  {{ create_id('team', 'date') }} AS team_date_id
 		, points AS team_score
 		, opponent_score
 		, opponent
