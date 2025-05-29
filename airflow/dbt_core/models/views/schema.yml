@@ -1,0 +1,21 @@
+version: 2
+
+# models:
+#   - name: props
+#     description: >
+#       Contains
+#     columns:
+#       - name: post_id
+#         description: >
+#           Unique identifier of records based on title, author, subreddit, and date_popular. The same reddit post can be in r/popular 
+#           on different dates.  
+#         data_tests:
+#           - unique:
+#               severity: warn
+#       - name: nsfw
+#         description: Boolean value indicating whether the post is NSFW or not
+#         data_tests:
+#           - accepted_values:
+#               values: [false, true]
+#               severity: warn
+#               quote: false
