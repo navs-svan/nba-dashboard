@@ -11,22 +11,158 @@ sources:
               error_after: {count: 365, period: day}
 
 
-# models:
-#   - name: props
-#     description: >
-#       Contains
-#     columns:
-#       - name: post_id
-#         description: >
-#           Unique identifier of records based on title, author, subreddit, and date_popular. The same reddit post can be in r/popular 
-#           on different dates.  
-#         data_tests:
-#           - unique:
-#               severity: warn
-#       - name: nsfw
-#         description: Boolean value indicating whether the post is NSFW or not
-#         data_tests:
-#           - accepted_values:
-#               values: [false, true]
-#               severity: warn
-#               quote: false
+models:
+  - name: props 
+    description: >
+      Player game stats for each game played in the season. Contains simple 
+      stats (fgm, ftm, rebs, asts, etc.) and advanced stats (efg%, box +/-, ts%, etc.).
+
+    columns:
+      - name: name
+        description: Player name.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('headshots')
+              field: player_name
+              severity: warn
+
+      - name: minutes_converted
+        description: Total minutes played, converted from raw string format to decimal minutes.
+
+      - name: game_played
+        description: Indicator if a player played in the game (1) or not (0).
+
+      - name: team_date_id
+        description: Unique identifier combining team and date for the game.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('win_lost_table_filter')
+              field: team_date_id
+              severity: error
+
+      - name: field_goals
+        description: Number of field goals made.
+
+      - name: fg_attempts
+        description: Number of field goals attempted.
+
+      - name: fg_percent
+        description: Field goal shooting percentage.
+
+      - name: fg_three
+        description: Number of three-point field goals made.
+
+      - name: fg_three_attempts
+        description: Number of three-point field goals attempted.
+
+      - name: fg_three_percent
+        description: Three-point field goal shooting percentage.
+
+      - name: ft_made
+        description: Number of free throws made.
+
+      - name: ft_attempt
+        description: Number of free throws attempted.
+
+      - name: ft_percent
+        description: Free throw shooting percentage.
+
+      - name: rb_offensive
+        description: Offensive rebounds.
+
+      - name: rb_defensive
+        description: Defensive rebounds.
+
+      - name: rb_total
+        description: Total rebounds.
+
+      - name: assists
+        description: Number of assists.
+
+      - name: steals
+        description: Number of steals.
+
+      - name: blocks
+        description: Number of blocks.
+
+      - name: turnovers
+        description: Number of turnovers.
+
+      - name: personal_fouls
+        description: Number of personal fouls.
+
+      - name: points
+        description: Total points scored.
+
+      - name: game_score
+        description: Player's game score metric.
+
+      - name: plus_minus
+        description: Plus/minus value indicating team's point differential when the player was on court.
+
+      - name: true_shoot_percent
+        description: True shooting percentage.
+
+      - name: efg_percent
+        description: Effective field goal percentage.
+
+      - name: fg_three_attempt_rate
+        description: Rate of three-point attempts relative to total FG attempts.
+
+      - name: ft_attempt_rate
+        description: Rate of free throw attempts relative to total FG attempts.
+
+      - name: rb_off_percent
+        description: Offensive rebound percentage.
+
+      - name: rb_def_percent
+        description: Defensive rebound percentage.
+
+      - name: rb_tot_percent
+        description: Total rebound percentage.
+
+      - name: assist_percent
+        description: Assist percentage.
+
+      - name: steal_percent
+        description: Steal percentage.
+
+      - name: block_percent
+        description: Block percentage.
+
+      - name: turnover_percent
+        description: Turnover percentage.
+
+      - name: usage_percent
+        description: Usage percentage.
+
+      - name: off_rating
+        description: Offensive rating.
+
+      - name: def_rating
+        description: Defensive rating.
+
+      - name: box_plus_minus
+        description: Box plus-minus rating.
+
+      - name: home_court
+        description: Indicates whether the game was played at home (1) or away (0).
+
+      - name: date
+        description: Date of the game.
+        tests:
+          - not_null
+
+      - name: team
+        description: Team name.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('teams')
+              field: team
+              severity: error
+
+      - name: opponent
+        description: Opposing team name.

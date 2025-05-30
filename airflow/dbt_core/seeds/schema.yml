@@ -1,0 +1,53 @@
+version: 2
+
+seeds:
+  - name: headshots
+    description: "NBA player headshots links and names."
+    columns:
+      - name: image_link
+        description: "URL link to the player's headshot image."
+
+      - name: player_name
+        description: "Full name of the NBA player."
+
+  - name: measure_filter
+    description: "Table used specifically for dynamic DAX calculations in Power BI"
+    columns:
+      - name: FilterTable
+        description: "Name of the statistic to filter on."
+
+      - name: Order
+        description: "Order or priority number for the statistic for display purposes."
+
+  - name: season_leaders_criteria
+    description: "Criteria to determine season leader eligibility"
+    columns:
+      - name: TEAM_GAMES
+        description: "Number of games a team has played in the season"
+
+      - name: ALLNOT%
+        description: "Minimum games played to qualify for rankings in non-percent stats."
+
+      - name: FG%
+        description: "Minimum field goals made to qualify for rankings in field goal percentage."
+
+      - name: FT%
+        description: "Minimum free throws made to qualify for rankings in free throw percentage."
+
+      - name: 3P%
+        description: "Minimum three pointers made to qualify for rankings in three point percentage"
+
+  - name: teams
+    description: "NBA teams with conference, short name, and logo URL."
+    columns:
+      - name: Team
+        description: "Full name of the NBA team."
+
+      - name: Conference
+        description: "Conference the team belongs to."
+
+      - name: ShortName
+        description: "Abbreviated short name for the team."
+
+      - name: Logo
+        description: "URL link to the team's logo image."
