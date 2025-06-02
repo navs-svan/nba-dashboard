@@ -118,7 +118,12 @@ def Pipeline():
         retries=3,
     )
 
-    web_to_gcs_task >> gcs_to_bucket_task
+    dbt_core_task = BashOperator(
+        task_id="dbt_core",
+        bash_command="cd /opt/airflow/dbt_core && dbt build",
+        retries=4,
+    )
+    web_to_gcs_task >> gcs_to_bucket_task >> dbt_core_task
 
 
 dag = Pipeline()
