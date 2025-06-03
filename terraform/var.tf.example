@@ -1,0 +1,43 @@
+variable "project_id" {
+  description = "Project ID"
+  default     = ""
+}
+
+variable "creds" {
+  description = "google cloud keys file"
+  default     = "../airflow/gcreds.json"
+}
+
+variable "region" {
+  description = "Project Region"
+  default     = ""
+}
+
+variable "location" {
+  description = "Project Location"
+  default     = ""
+}
+
+
+variable "google_storage_bucket_name" {
+  description = "Storage Bucket Name"
+  default     = ""
+}
+
+
+variable "bq_raw" {
+  description = "BigQuery Dataset Name where raw data is appended"
+  default     = ""
+}
+
+variable "bq_prod" {
+  description = "BigQuery Production Schema"
+  default     = ""
+}
+
+variable "bq_dev" {
+  description = "BigQuery Development Schema"
+  default     = ""
+}
+
+# RENAME THIS FILE TO "var.tf"
