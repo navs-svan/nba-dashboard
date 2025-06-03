@@ -1,0 +1,225 @@
+version: 2
+
+models:
+  - name: win_lost_table_filter
+    description: >
+      A table used to create a specific visual in Power BI. Contains the outcome of every 
+      game played in the season for each team. (Team A vs Team B) and (Team B vs Team A) 
+      are different records.
+    columns:
+      - name: team_date_id
+        description: >
+          UUnique identifier generated using the `team` and `date` columns. Used to uniquely identify
+          each game played by a team on a specific date
+        tests:
+          - unique:
+              severity: error
+
+      - name: team_score
+        description: The final score of the team.
+
+      - name: opponent_score
+        description: The final score of the opposing team.
+
+      - name: opponent
+        description: Name of the opposing team.
+
+      - name: point_diff
+        description: Point differential relative to the team.
+
+  - name: team_records
+    description: >
+      Aggregates team-level statistics and rankings by combining win/loss records, 
+      per-game averages, and total shooting metrics. Ranks teams by conference 
+      based on win percentage.
+    columns:
+      - name: short_name
+        description: Short name of the team.
+
+      - name: conference
+        description: Conference to which the team belongs.
+
+      - name: conference_rank
+        description: Team's rank within their conference, based on win percentage.
+
+      - name: team
+        description: Team name used to join other tables.
+        tests:
+          - unique:
+              severity: error
+
+      - name: total_wins
+        description: Total number of games the team has won.
+
+      - name: total_losses
+        description: Total number of games the team has lost.
+
+      - name: percent_win
+        description: Percentage of games the team has won.
+
+      - name: points_pg
+        description: Average points scored per game.
+
+      - name: fgm_pg
+        description: Average field goals made per game.
+
+      - name: fga_pg
+        description: Average field goals attempted per game.
+
+      - name: ftm_pg
+        description: Average free throws made per game.
+
+      - name: fta_pg
+        description: Average free throws attempted per game.
+
+      - name: fg3_pg
+        description: Average 3-point field goals made per game.
+
+      - name: fg3a_pg
+        description: Average 3-point field goals attempted per game.
+
+      - name: oreb_pg
+        description: Average offensive rebounds per game.
+
+      - name: dreb_pg
+        description: Average defensive rebounds per game.
+
+      - name: treb_pg
+        description: Average total rebounds per game.
+
+      - name: ast_pg
+        description: Average assists per game.
+
+      - name: stl_pg
+        description: Average steals per game.
+
+      - name: blk_pg
+        description: Average blocks per game.
+
+      - name: tov_pg
+        description: Average turnovers per game.
+
+      - name: fg_percent_pg
+        description: Team shooting percentage from the field.
+
+      - name: ft_percent_pg
+        description: Team free throw percentage.
+
+      - name: fg3_percent_pg
+        description: Team 3-point shooting percentage.
+
+  - name: off_def_rating
+    description: >
+      Contains the average offensive and defensive ratings for each player, grouped by name and team. 
+      These metrics reflect the player's contribution to team performance on both ends of the court.
+
+    columns:
+      - name: name
+        description: Full name of the player.
+
+      - name: off_rating
+        description: Average offensive rating for the player, representing points produced per 100 possessions.
+
+      - name: def_rating
+        description: Average defensive rating for the player, representing points allowed per 100 possessions.
+
+      - name: team
+        description: The team the player belongs to.
+        tests:
+          - relationships:
+              to: ref('teams')
+              field: team
+
+  - name: game_results
+    description: >
+      Contains aggregated team-level game statistics per date and opponent. Includes shooting splits,
+      rebound totals, playmaking, defense, and game outcomes (win/loss and home/away status).
+      Data is derived from the `props` model.
+
+    columns:
+      - name: date
+        description: The date the game was played.
+        tests:
+          - not_null
+
+      - name: team
+        description: Name of the team.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('teams')
+              field: team
+
+      - name: opponent
+        description: Name of the opposing team.
+
+      - name: points
+        description: Total points scored by the team.
+
+      - name: fgm
+        description: Total field goals made.
+
+      - name: fga
+        description: Total field goals attempted.
+
+      - name: fg_percent
+        description: Field goal percentage.
+
+      - name: fg3
+        description: Total 3-point field goals made.
+
+      - name: fg3a
+        description: Total 3-point field goals attempted.
+
+      - name: fg3_percent
+        description: 3-point field goal percentage.
+
+      - name: ftm
+        description: Total free throws made.
+
+      - name: fta
+        description: Total free throws attempted.
+
+      - name: ft_percent
+        description: Free throw percentage.
+
+      - name: oreb
+        description: Total offensive rebounds.
+
+      - name: dreb
+        description: Total defensive rebounds.
+
+      - name: treb
+        description: Total rebounds (offensive + defensive).
+
+      - name: ast
+        description: Total assists.
+
+      - name: stl
+        description: Total steals.
+
+      - name: blk
+        description: Total blocks.
+
+      - name: tov
+        description: Total turnovers.
+
+      - name: pf
+        description: Total personal fouls.
+
+      - name: opponent_score
+        description: Total points scored by the opponent.
+
+      - name: result
+        description: Result of the game for the team — either 'Win' or 'Loss'.
+        tests:
+          - accepted_values:
+              values: ['Win', 'Loss']
+              severity: error
+
+      - name: home_court
+        description: Indicates if the game was played at 'Home' or 'Away'.
+        tests:
+          - accepted_values:
+              values: ['Home', 'Away']
+              severity: error

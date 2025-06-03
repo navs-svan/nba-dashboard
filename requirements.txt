@@ -1,6 +1,0 @@
-requests
-scrapy==2.11.2
-ipython
-python-dotenv
-psycopg2
-scrapy-deltafetch
